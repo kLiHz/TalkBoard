@@ -68,11 +68,14 @@ export const LANGUAGE_LABELS: Record<AppLanguage, string> = {
 };
 
 export const COLOR_PRESETS = [
-  { bg: '#000000', text: '#ffffff', label: 'B/W' },
-  { bg: '#ffffff', text: '#000000', label: 'W/B' },
-  { bg: '#000000', text: '#ffff00', label: 'Y/B' },
-  { bg: '#0000ff', text: '#ffffff', label: 'W/B' },
-  { bg: '#000000', text: '#00ff00', label: 'G/B' },
+  { bg: '#000000', text: '#ffffff', label: 'Black' },
+  { bg: '#ffffff', text: '#000000', label: 'White' },
+  { bg: '#1e3a8a', text: '#ffffff', label: 'Cobalt' },
+  { bg: '#064e3b', text: '#ffffff', label: 'Castleton' },
+  { bg: '#7f1d1d', text: '#ffffff', label: 'Red' },
+  { bg: '#000000', text: '#ffff00', label: 'Yellow' },
+  { bg: '#0000ff', text: '#ffffff', label: 'Blue' },
+  { bg: '#000000', text: '#00ff00', label: 'Green' },
 ];
 
 export const INITIAL_SHORTCUTS: Record<AppLanguage, string[]> = {
