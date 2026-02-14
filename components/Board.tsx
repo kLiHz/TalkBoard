@@ -12,12 +12,12 @@ const Board: React.FC<BoardProps> = ({ text, bgColor, textColor, isRotated }) =>
   // Logic to dynamically adjust font size based on text length
   const fontSizeClass = useMemo(() => {
     const len = text.length;
-    if (len < 5) return 'text-[15vw] leading-tight';
-    if (len < 10) return 'text-[12vw] leading-tight';
-    if (len < 20) return 'text-[9vw] leading-tight';
-    if (len < 50) return 'text-[7vw] leading-snug';
-    return 'text-[5vw] leading-normal';
-  }, [text]);
+    if (len < 5) return isRotated ? 'text-[15vh] leading-tight' : 'text-[15vw] leading-tight';
+    if (len < 10) return isRotated ? 'text-[12vh] leading-tight' : 'text-[12vw] leading-tight';
+    if (len < 20) return isRotated ? 'text-[9vh] leading-tight' : 'text-[9vw] leading-tight';
+    if (len < 50) return isRotated ? 'text-[7vh] leading-snug' : 'text-[7vw] leading-snug';
+    return isRotated ? 'text-[5vh] leading-normal' : 'text-[5vw] leading-normal';
+  }, [text, isRotated]);
 
   const rotatedStyles: React.CSSProperties = isRotated ? {
     width: '100vh',
