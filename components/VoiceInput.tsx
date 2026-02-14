@@ -40,6 +40,8 @@ const VoiceInput: React.FC<VoiceInputProps> = ({ onResult, language, translation
   }, []);
 
   const toggleListen = () => {
+    if (!supported) return;
+    
     if (isListening) {
       setIsListening(false);
       return;
@@ -67,22 +69,33 @@ const VoiceInput: React.FC<VoiceInputProps> = ({ onResult, language, translation
     }
   };
 
-  if (!supported) return null;
-
   return (
-    <button
-      onClick={toggleListen}
-      className={`relative flex items-center justify-center w-16 h-16 rounded-xl transition-all duration-300 ${isListening ? 'bg-red-500 scale-110' : 'bg-blue-600 hover:bg-blue-500'}`}
-      title={isListening ? translations.voiceListening : translations.voicePrompt}
-    >
-      <i className={`fas ${isListening ? 'fa-microphone-lines' : 'fa-microphone'} text-white text-2xl`}></i>
-      {isListening && (
-        <span className="absolute -top-1 -right-1 flex h-4 w-4">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-4 w-4 bg-white"></span>
-        </span>
-      )}
-    </button>
+    <div className="flex flex-col items-center">
+      <button
+        onClick={toggleListen}
+        disabled={supported === false}
+        aria-label={isListening ? translations.voiceListening : translations.voicePrompt}
+        className={`relative flex items-center justify-center w-14 h-14 rounded-2xl transition-all duration-300 shadow-lg active:scale-95 
+          ${!supported 
+            ? 'bg-gray-800 text-gray-600 cursor-not-allowed border border-gray-700' 
+            : isListening 
+              ? 'bg-red-500 scale-105 shadow-red-500/50' 
+              : 'bg-indigo-600 hover:bg-indigo-500 shadow-indigo-600/30'
+          }`}
+      >
+        <i className={`fas ${!supported ? 'fa-microphone-slash' : isListening ? 'fa-microphone-lines' : 'fa-microphone'} text-white text-xl`}></i>
+        
+        {isListening && (
+          <span className="absolute -top-1 -right-1 flex h-4 w-4">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-4 w-4 bg-white shadow-sm"></span>
+          </span>
+        )}
+      </button>
+      <span className="text-[10px] text-gray-500 mt-1 font-medium whitespace-nowrap">{
+        supported ? (isListening ? translations.voiceListening : translations.voicePrompt) : 'N/A'
+      }</span>
+    </div>
   );
 };
 
