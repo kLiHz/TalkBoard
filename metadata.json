@@ -1,0 +1,7 @@
+{
+  "name": "TalkBoard - Accessible Communication",
+  "description": "A high-visibility communication board for people with hearing disabilities. Features customizable high-contrast colors, orientation-independent rotation, voice-to-text input, and phrase shortcuts.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
