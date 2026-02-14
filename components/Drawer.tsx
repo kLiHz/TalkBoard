@@ -50,8 +50,8 @@ const Drawer: React.FC<DrawerProps> = ({
 
   return (
     <div 
-      className={`fixed bottom-0 left-0 w-full transition-all duration-500 ease-out z-50 transform 
-        ${isOpen ? 'translate-y-0' : 'translate-y-[calc(100%-64px)]'}`}
+      className={`fixed bottom-0 left-0 w-full transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] z-50 transform 
+        ${isOpen ? 'translate-y-0' : 'translate-y-[calc(100%-72px)]'}`}
     >
       {/* Handle / Toggle Button Area */}
       <div className="flex justify-center -mb-px relative z-10">
@@ -67,7 +67,7 @@ const Drawer: React.FC<DrawerProps> = ({
       {/* Tools Body */}
       <div className="bg-zinc-900/95 backdrop-blur-xl border-t border-white/10 p-6 pb-10 max-h-[85vh] overflow-y-auto shadow-[0_-20px_50px_-15px_rgba(0,0,0,0.5)]">
         
-        {/* Main Control Bar (Input + Voice) */}
+        {/* Input Area */}
         <div className="flex items-start gap-4 mb-8">
           <div className="relative flex-grow">
             <input
@@ -97,8 +97,8 @@ const Drawer: React.FC<DrawerProps> = ({
           />
         </div>
 
-        {/* Rotation and Save Actions */}
-        <div className="grid grid-cols-2 gap-3 mb-8">
+        {/* Primary Action Buttons */}
+        <div className="grid grid-cols-2 gap-4 mb-10">
           <button 
             onClick={toggleRotation}
             className={`py-4 px-4 rounded-2xl border transition-all flex items-center justify-center gap-3 active:scale-95
@@ -120,15 +120,15 @@ const Drawer: React.FC<DrawerProps> = ({
           </button>
         </div>
 
-        {/* Shortcuts Section */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4 px-1">
-            <h3 className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">{translations.shortcuts}</h3>
-            <span className="h-px flex-grow ml-4 bg-white/5"></span>
+        {/* Shortcuts / Quick Phrases */}
+        <div className="mb-10">
+          <div className="flex items-center gap-4 mb-5 px-1">
+            <h3 className="text-white/30 text-[10px] font-black uppercase tracking-wider whitespace-nowrap">{translations.shortcuts}</h3>
+            <div className="h-px w-full bg-white/10"></div>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2.5">
             {currentShortcuts.length > 0 ? currentShortcuts.map((shortcut) => (
-              <div key={shortcut.id} className="relative group animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <div key={shortcut.id} className="relative group animate-slide-up">
                 <button
                   onClick={() => updateText(shortcut.text)}
                   className="bg-white/5 hover:bg-white/10 active:scale-95 text-white/90 px-4 py-3 rounded-xl text-sm border border-white/5 transition-all"
@@ -137,47 +137,49 @@ const Drawer: React.FC<DrawerProps> = ({
                 </button>
                 <button 
                   onClick={() => removeShortcut(shortcut.id)}
-                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-xl opacity-0 group-hover:opacity-100 transition-opacity border-2 border-zinc-900"
+                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all border-2 border-zinc-950 scale-75 group-hover:scale-100 group-focus:scale-100"
                 >
                   <i className="fas fa-times text-[10px]"></i>
                 </button>
               </div>
             )) : (
-              <p className="text-white/20 text-xs italic px-1">No phrases saved yet.</p>
+              <p className="text-white/20 text-xs italic px-1 py-4">No phrases saved yet.</p>
             )}
           </div>
         </div>
 
-        {/* Secondary Config Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-white/5">
-          {/* Themes */}
+        {/* Footer Configuration */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-8 border-t border-white/10">
+          {/* Theme Selector */}
           <div>
-            <h3 className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] mb-4 px-1">{translations.colors}</h3>
-            <div className="flex flex-wrap gap-3">
+            <h3 className="text-white/30 text-[10px] font-black uppercase tracking-wider mb-5 px-1">{translations.colors}</h3>
+            <div className="flex flex-wrap gap-4">
               {COLOR_PRESETS.map((p, idx) => (
                 <button
                   key={idx}
-                  onClick={() => setColors(p.bg, p.text)}
-                  title={p.label}
-                  className={`w-12 h-12 rounded-full border-2 transition-all active:scale-90 shadow-lg flex items-center justify-center
-                    ${state.bgColor === p.bg ? 'border-indigo-500 scale-110' : 'border-white/10'}`}
-                  style={{ backgroundColor: p.bg, color: p.text }}
+                  onClick={() => setColors(p.bg, p.text, p.label)}
+                  className={`group relative w-14 h-14 rounded-2xl transition-all active:scale-90 shadow-xl flex items-center justify-center overflow-hidden
+                    ${state.colorLabel === p.label ? 'ring-4 ring-brand/40 scale-110' : 'ring-1 ring-white/10'}`}
+                  style={{ backgroundColor: p.bg }}
                 >
-                  <span className="text-[8px] font-black tracking-tighter uppercase opacity-30">{p.label}</span>
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
+                    <i className="fas fa-check text-xs text-white" style={{ color: p.text }}></i>
+                  </div>
+                  <span className="text-[10px] font-black tracking-tighter uppercase group-hover:opacity-0" style={{ color: p.text }}>Text</span>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Languages */}
+          {/* Language Selector */}
           <div>
-            <h3 className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] mb-4 px-1">{translations.language}</h3>
-            <div className="grid grid-cols-2 gap-2">
+            <h3 className="text-white/30 text-[10px] font-black uppercase tracking-wider mb-5 px-1">{translations.language}</h3>
+            <div className="grid grid-cols-2 gap-2.5">
               {(['en', 'ja', 'zh-CN', 'zh-TW'] as AppLanguage[]).map((lang) => (
                 <button
                   key={lang}
                   onClick={() => setLanguage(lang)}
-                  className={`py-3 px-3 rounded-xl border text-xs font-bold transition-all active:scale-95
+                  className={`py-4 px-3 rounded-2xl border text-xs font-black transition-all active:scale-95
                     ${state.language === lang 
                       ? 'bg-indigo-600 border-indigo-400 text-white shadow-md' 
                       : 'bg-white/5 border-white/5 text-white/50 hover:bg-white/10'}`}

@@ -57,8 +57,8 @@ const App: React.FC = () => {
     setState(prev => ({ ...prev, language: lang }));
   };
 
-  const setColors = (bg: string, text: string) => {
-    setState(prev => ({ ...prev, bgColor: bg, textColor: text }));
+  const setColors = (bg: string, text: string, label: string) => {
+    setState(prev => ({ ...prev, bgColor: bg, textColor: text, colorLabel: label }));
   };
 
   const addShortcut = (text: string) => {

@@ -12,40 +12,28 @@ const Board: React.FC<BoardProps> = ({ text, bgColor, textColor, isRotated }) =>
   // Logic to dynamically adjust font size based on text length
   const fontSizeClass = useMemo(() => {
     const len = text.length;
-    if (len < 5) return isRotated ? 'text-[15vh] leading-tight' : 'text-[15vw] leading-tight';
-    if (len < 10) return isRotated ? 'text-[12vh] leading-tight' : 'text-[12vw] leading-tight';
-    if (len < 20) return isRotated ? 'text-[9vh] leading-tight' : 'text-[9vw] leading-tight';
-    if (len < 50) return isRotated ? 'text-[7vh] leading-snug' : 'text-[7vw] leading-snug';
-    return isRotated ? 'text-[5vh] leading-normal' : 'text-[5vw] leading-normal';
+    if (len < 5) return isRotated ? 'text-[18vh] leading-none' : 'text-[18vw] leading-none';
+    if (len < 12) return isRotated ? 'text-[14vh] leading-tight' : 'text-[14vw] leading-tight';
+    if (len < 25) return isRotated ? 'text-[10vh] leading-tight' : 'text-[10vw] leading-tight';
+    if (len < 60) return isRotated ? 'text-[8vh] leading-snug' : 'text-[8vw] leading-snug';
+    return isRotated ? 'text-[6vh] leading-normal' : 'text-[5vw] leading-normal';
   }, [text, isRotated]);
 
-  const rotatedStyles: React.CSSProperties = isRotated ? {
-    width: '100vh',
-    height: '100vw',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%) rotate(90deg)',
-    transformOrigin: 'center center',
-  } : {
-    width: '100vw',
-    height: '100vh',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-  };
+  // Rotated container logic
+  const containerClasses = isRotated 
+    ? "fixed inset-0 flex items-center justify-center w-[100vh] h-[100vw] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90 origin-center"
+    : "fixed inset-0 flex items-center justify-center w-full h-full p-10";
 
   return (
     <div 
-      className="flex items-center justify-center p-8 transition-colors duration-300 overflow-hidden text-center font-bold break-words whitespace-pre-wrap"
+      className={`${containerClasses} transition-colors duration-500 overflow-hidden text-center font-black break-words whitespace-pre-wrap select-text`}
       style={{
-        ...rotatedStyles,
         backgroundColor: bgColor,
         color: textColor,
         zIndex: 0
       }}
     >
-      <div className={fontSizeClass}>
+      <div className={`${fontSizeClass} drop-shadow-sm`}>
         {text || " "}
       </div>
     </div>
